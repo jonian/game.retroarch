@@ -1,0 +1,27 @@
+#!/bin/sh
+. /etc/profile
+
+sleep 1s
+
+# Base variables
+RELEASE=$(cat /etc/release)
+PROJECT=$(head -c 3 /etc/release)
+
+# Path variables
+ADDON_DIR="/storage/.kodi/addons/game.retroarch"
+LOG_FILE=/storage/.kodi/temp/retroarch.log
+LOG_FILE_DEBUG=/storage/.kodi/temp/retroarch_debug.log
+
+echo 'RetroArch [ADDON] :: '$RELEASE' - '$(date) >> $LOG_FILE
+
+# Stop KODI
+echo 'RetroArch [ADDON] :: Stop kodi...' >> $LOG_FILE
+systemctl stop kodi
+
+# Launch emulator
+echo 'RetroArch [ADDON] :: Launch RetroArch (See process output in retroarch_debug.log)' >> $LOG_FILE
+$ADDON_DIR/game.retroarch --menu &> $LOG_FILE_DEBUG
+
+# Start KODI
+echo 'RetroArch [ADDON] :: Restart kodi...' >> $LOG_FILE
+systemctl start kodi

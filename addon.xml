@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="game.retroarch" name="RetroArch" version="0.0.2" provider-name="jonian">
+  <extension point="xbmc.python.pluginsource" library="addon.py">
+    <provides>game</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">A libretro frontend</summary>
+    <description lang="en">RetroArch the default libretro frontend.</description>
+    <language></language>
+    <platform>linux</platform>
+    <license>GPL-3.0</license>
+    <forum></forum>
+    <website>github.com/jonian/game.retroarch</website>
+    <email>jonian@hardpixel.eu</email>
+    <source>github.com/jonian/game.retroarch</source>
+    <news></news>
+    <disclaimer></disclaimer>
+    <assets>
+      <icon>resources/icon.png</icon>
+      <fanart>resources/fanart.jpg</fanart>
+    </assets>
+  </extension>
+</addon>
