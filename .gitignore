@@ -6,6 +6,7 @@
 /.project
 /.pydevproject
 /.settings
+/build
 Thumbs.db
 *~
 .cache
