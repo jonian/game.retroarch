@@ -1,5 +1,7 @@
 #!/bin/sh
 
+ARCH=$(uname -m)
+
 CONFIG_OPTIONS="--disable-vg \
   --disable-sdl \
   --disable-sdl2 \
@@ -12,9 +14,7 @@ CONFIG_OPTIONS="--disable-vg \
   --enable-freetype \
   --enable-egl \
   --enable-opengles \
-  --enable-alsa \
-  --enable-floathard \
-  --enable-neon"
+  --enable-alsa"
 
 MAKE_OPTIONS="V=1 \
   HAVE_LAKKA=0 \
@@ -39,4 +39,14 @@ if [ "${SUPPORT_OPENGLES3}" = "yes" ]; then
   CONFIG_OPTIONS="${CONFIG_OPTIONS} --enable-opengles3 --enable-opengles3_1"
 fi
 
-CFLAGS='-mfpu=neon' ./configure $CONFIG_OPTIONS && make -j4 $MAKE_OPTIONS
+if [ "${ARCH}" = "armv7l" ]; then
+  CONFIG_FLAGS="-mfpu=neon"
+  CONFIG_OPTIONS="${CONFIG_OPTIONS} --enable-neon --enable-floathard"
+fi
+
+echo ""
+echo " CFLAGS : ${CONFIG_FLAGS:-none}"
+echo " CONFIG : ${CONFIG_OPTIONS}"
+echo ""
+
+CFLAGS="${CONFIG_FLAGS}" ./configure $CONFIG_OPTIONS && make -j4 $MAKE_OPTIONS
