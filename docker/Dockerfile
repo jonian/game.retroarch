@@ -1,4 +1,4 @@
-FROM balenalib/rpi-debian:buster
+FROM jonian/rpi-buildenv:buster
 
 # Set environment variables
 ENV DEBIAN_FRONTEND noninteractive
