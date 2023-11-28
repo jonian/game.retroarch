@@ -14,7 +14,7 @@ os.system("echo 'RetroArch [ADDON] ::' $(date) > /storage/.kodi/temp/retroarch.l
 os.system("echo '======================' >> /storage/.kodi/temp/retroarch.log")
 
 os.system("mkdir -p /storage/.kodi/userdata/addon_data/game.retroarch")
-os.system("if [ -L /storage/.config/retroarch ] ; then rm -rf /storage/.config/retroarch ; fi")
+os.system("if [ -L /storage/.config/retroarch ] ; then rm /storage/.config/retroarch ; fi")
 os.system("ln -s /storage/.kodi/userdata/addon_data/game.retroarch /storage/.config/retroarch")
 
 os.system("chmod a+x /storage/.kodi/addons/game.retroarch/addon.sh")
