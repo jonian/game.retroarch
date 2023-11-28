@@ -54,4 +54,6 @@ docker build \
   --tag $image_name \
   docker
 
-docker cp $(docker create $image_name):/root/RetroArch/retroarch build/game.retroarch
+docker cp \
+  $(docker create --platform $PLATFORM $image_name):/root/RetroArch/retroarch \
+  build/game.retroarch
