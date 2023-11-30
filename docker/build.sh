@@ -14,6 +14,7 @@ CONFIG_OPTIONS="--disable-vg \
   --enable-freetype \
   --enable-egl \
   --enable-opengles \
+  --enable-hid \
   --enable-alsa"
 
 MAKE_OPTIONS="V=1 \
