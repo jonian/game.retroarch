@@ -1,12 +1,10 @@
 FROM jonian/rpi-buildenv:buster
 
 # Set environment variables
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Update and install dependencies
-RUN apt-get update && apt-get install -y \
-      build-essential \
-      libraspberrypi-dev \
+RUN apt-get update && apt-get install -yq \
       libegl-dev \
       libegl1-mesa-dev \
       libgles2-mesa-dev \
@@ -20,7 +18,8 @@ RUN apt-get update && apt-get install -y \
       libbluetooth-dev \
       libusb-1.0-0-dev \
       libxml2-dev \
-      libfreetype6-dev \
+      libfontconfig-dev \
+      libavdevice-dev \
       libavcodec-dev \
       libavformat-dev \
       libswscale-dev \
@@ -28,7 +27,6 @@ RUN apt-get update && apt-get install -y \
       libpng-dev \
       libjpeg-dev \
       zlib1g-dev \
-      mesa-common-dev \
       ffmpeg \
       wget
 
