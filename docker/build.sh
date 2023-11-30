@@ -26,6 +26,7 @@ MAKE_OPTIONS="V=1 \
 
 if [ "${SUPPORT_VIDEOCORE}" = "yes" ]; then
   CONFIG_OPTIONS="${CONFIG_OPTIONS} --enable-videocore --disable-kms"
+  sed -i 's/HAVE_CRTSWITCHRES=auto/HAVE_CRTSWITCHRES=no/' qb/config.params.sh
 else
   CONFIG_OPTIONS="${CONFIG_OPTIONS} --disable-videocore --enable-kms"
 fi
