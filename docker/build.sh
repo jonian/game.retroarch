@@ -40,7 +40,7 @@ if [ "${SUPPORT_OPENGLES3}" = "yes" ]; then
 fi
 
 if [ "${ARCH}" = "armv7l" ]; then
-  CONFIG_FLAGS="-mfpu=neon"
+  CONFIG_FLAGS="-mfpu=neon -mfloat-abi=hard"
   CONFIG_OPTIONS="${CONFIG_OPTIONS} --enable-neon --enable-floathard"
 fi
 
@@ -49,4 +49,4 @@ echo " CFLAGS : ${CONFIG_FLAGS:-none}"
 echo " CONFIG : ${CONFIG_OPTIONS}"
 echo ""
 
-CFLAGS="${CONFIG_FLAGS}" ./configure $CONFIG_OPTIONS && make -j4 $MAKE_OPTIONS
+CFLAGS="${CONFIG_FLAGS}" ./configure $CONFIG_OPTIONS && make $MAKE_OPTIONS
