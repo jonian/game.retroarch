@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
       libudev-dev \
       libxkbcommon-dev \
       libbluetooth-dev \
+      libusb-1.0-0-dev \
       libxml2-dev \
       libfreetype6-dev \
       libavcodec-dev \
@@ -26,7 +27,6 @@ RUN apt-get update && apt-get install -y \
       libavutil-dev \
       libpng-dev \
       libjpeg-dev \
-      libusb-dev \
       zlib1g-dev \
       mesa-common-dev \
       ffmpeg \
