@@ -7,8 +7,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -yq \
       libegl-dev \
       libegl1-mesa-dev \
+      libgles-dev \
       libgles2-mesa-dev \
-      libgl1-mesa-dev \
       libvulkan-dev \
       libasound2-dev \
       libgbm-dev \
@@ -24,10 +24,13 @@ RUN apt-get update && apt-get install -yq \
       libavformat-dev \
       libswscale-dev \
       libavutil-dev \
+      libspeex-dev \
       libpng-dev \
       libjpeg-dev \
       zlib1g-dev \
+      mesa-vulkan-drivers \
       ffmpeg \
+      yasm \
       wget
 
 # Download RetroArch package
