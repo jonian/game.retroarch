@@ -51,4 +51,4 @@ echo " CFLAGS : ${CONFIG_FLAGS:-none}"
 echo " CONFIG : ${CONFIG_OPTIONS}"
 echo ""
 
-CFLAGS="${CONFIG_FLAGS}" ./configure $CONFIG_OPTIONS && make $MAKE_OPTIONS
+CFLAGS="${CONFIG_FLAGS}" ./configure $CONFIG_OPTIONS && make $MAKE_OPTIONS -j $JOBS

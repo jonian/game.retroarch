@@ -2,8 +2,6 @@
 
 set -e
 
-mkdir -p build
-
 VERSION="${VERSION:-1.16.0.3}"
 LIBREELEC="${LIBREELEC:-11}"
 DEVICE="${DEVICE:-RPi4}"
@@ -42,11 +40,13 @@ echo "  OpenGLESv3 : ${VULKAN}"
 echo "  Vulkan     : ${VULKAN}"
 echo ""
 
+cpu_cores=$(nproc --ignore=2)
 image_name=game.retroarch:$VERSION
 
 docker build \
   --progress=plain \
   --platform ${PLATFORM} \
+  --build-arg JOBS="${JOBS:-$cpu_cores}" \
   --build-arg VERSION="${VERSION}" \
   --build-arg VIDEOCORE="${VIDEOCORE}" \
   --build-arg VULKAN="${VULKAN}" \
@@ -54,6 +54,11 @@ docker build \
   --tag $image_name \
   docker
 
+container_id=$(docker create --platform $PLATFORM $image_name)
+build_path=build
+
+mkdir -p $build_path
+
 docker cp \
-  $(docker create --platform $PLATFORM $image_name):/root/RetroArch/retroarch \
-  build/game.retroarch
+  $container_id:/root/RetroArch/retroarch \
+  $build_path/game.retroarch

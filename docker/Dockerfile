@@ -5,9 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Update and install dependencies
 RUN apt-get update && apt-get install -yq \
-      libegl-dev \
       libegl1-mesa-dev \
-      libgles-dev \
       libgles2-mesa-dev \
       libvulkan-dev \
       libasound2-dev \
@@ -30,8 +28,7 @@ RUN apt-get update && apt-get install -yq \
       zlib1g-dev \
       mesa-vulkan-drivers \
       ffmpeg \
-      yasm \
-      wget
+      yasm
 
 # Download RetroArch package
 WORKDIR /root
@@ -48,6 +45,9 @@ COPY . .
 
 # Build RetroArch
 WORKDIR /root/RetroArch
+
+ARG JOBS=1
+ENV JOBS=$JOBS
 
 ARG VIDEOCORE=no
 ARG VULKAN=no
