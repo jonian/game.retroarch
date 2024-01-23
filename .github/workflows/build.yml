@@ -20,6 +20,8 @@ jobs:
             device: RPi4
           - libreelec: 9
             device: RPi5
+          - libreelec: 10
+            device: RPi5
 
     name: libreelec-${{ matrix.libreelec }}-${{ matrix.device }}
     runs-on: ubuntu-latest
