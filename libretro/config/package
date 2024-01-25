@@ -1,0 +1,41 @@
+#!/bin/bash
+
+. /root/config/options
+
+if [[ "${ARCH}" = "arm" && "${DEVICE}" = "RPi5" ]]; then
+  sed -i -e 's/RPi4/RPi5/g' ${LAKKA_DIR}/projects/RPi/options
+fi
+
+. ${LAKKA_DIR}/config/functions
+. ${LAKKA_DIR}/projects/${PROJECT}/options
+. ${LAKKA_DIR}/projects/${PROJECT}/devices/${DEVICE}/options
+. ${LAKKA_DIR}/config/arch.${ARCH}
+. ${LAKKA_DIR}/config/graphic
+
+. ${PACKAGE_DIR}/package.mk
+
+PKG_ARCH="${PKG_ARCH:-$ARCH}"
+PKG_BUILD="${PKG_BUILD:-$SOURCE_DIR}"
+
+if ! [[ "${PKG_ARCH}" =~ "${ARCH}" ]]; then
+  echo "WARNING: Core ${PACKAGE} supports only ${PKG_ARCH} platforms!"
+fi
+
+PKG_CONFIGURE_SCRIPT="${PKG_CONFIGURE_SCRIPT:-${PKG_BUILD}/configure}"
+PKG_CMAKE_SCRIPT="${PKG_CMAKE_SCRIPT:-${PKG_BUILD}/CMakeLists.txt}"
+PKG_MESON_SCRIPT="${PKG_MESON_SCRIPT:-${PKG_BUILD}/meson.build}"
+
+if [ -z "${PKG_TOOLCHAIN}" -o "${PKG_TOOLCHAIN}" = "auto" ]; then
+  if [ -f "${PKG_MESON_SCRIPT}" ]; then
+    PKG_TOOLCHAIN="meson"
+  elif [ -f "${PKG_CMAKE_SCRIPT}" ]; then
+    PKG_TOOLCHAIN="cmake"
+  elif [ -f "${PKG_CONFIGURE_SCRIPT}" ]; then
+    PKG_TOOLCHAIN="configure"
+  elif [ -f "${PKG_BUILD}/Makefile" ]; then
+    PKG_TOOLCHAIN="make"
+  else
+    echo "Not possible to detect toolchain automatically!"
+    exit 1
+  fi
+fi

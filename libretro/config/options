@@ -1,0 +1,34 @@
+#!/bin/bash
+
+ARCH=$(uname -m)
+
+if [ "${ARCH}" = "aarch64" ]; then
+  ARCH="aarch64"
+  TARGET_ARCH="aarch64"
+  TARGET_NAME="armv8"
+  ARM_MEM_SUPPORT="no"
+else
+  ARCH="arm"
+  TARGET_ARCH="arm"
+  TARGET_NAME="armv7"
+  ARM_MEM_SUPPORT="yes"
+fi
+
+DISTRO="Lakka"
+PROJECT="RPi"
+DEVICE="${DEVICE:-RPi4}"
+PACKAGE="${PACKAGE:-lutro}"
+
+WORKDIR="/root/LibRetro"
+INSTALL="${WORKDIR}/install"
+
+SOURCE_DIR="/root/LibRetro/${PACKAGE}"
+RESULT_DIR="${INSTALL}/usr/lib/libretro"
+
+LAKKA_DIR="/root/Lakka"
+PACKAGE_DIR="${LAKKA_DIR}/packages/lakka/libretro_cores/${PACKAGE}"
+
+if ! [[ -d "${PACKAGE_DIR}" ]]; then
+  echo "Build scripts for ${PACKAGE} are not available!"
+  exit 1
+fi

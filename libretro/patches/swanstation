@@ -1,0 +1,3 @@
+#!/bin/bash
+
+PKG_CMAKE_OPTS_TARGET="-DCMAKE_BUILD_TYPE=Release"
