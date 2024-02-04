@@ -1,3 +1,6 @@
 #!/bin/bash
 
 PKG_MAKE_OPTS_TARGET="${PKG_MAKE_OPTS_TARGET//HAVE_OPENGL=1/HAVE_OPENGLES3=1}"
+
+sed -i '701s/current_screen_layout/screen_layout_data.displayed_layout/' ${SOURCE_DIR}/src/libretro/libretro.cpp
+sed -i '61s/current_screen_layout/screen_layout_data.displayed_layout/' ${SOURCE_DIR}/src/libretro/input.cpp
