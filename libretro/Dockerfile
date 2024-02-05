@@ -50,6 +50,7 @@ ENV PACKAGE=$CORE
 
 # Copy project files and fetch source
 COPY ./config/options /root/config/
+COPY ./packages*/${CORE} /root/packages/
 COPY ./scripts/fetch.sh /root/scripts/
 
 RUN bash /root/scripts/fetch.sh

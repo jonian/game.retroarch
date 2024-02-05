@@ -28,6 +28,11 @@ RESULT_DIR="${INSTALL}/usr/lib/libretro"
 LAKKA_DIR="/root/Lakka"
 PACKAGE_DIR="${LAKKA_DIR}/packages/lakka/libretro_cores/${PACKAGE}"
 
+if [[ -f "/root/packages/${PACKAGE}" ]]; then
+  mkdir -p "${PACKAGE_DIR}"
+  cp "/root/packages/${PACKAGE}" "${PACKAGE_DIR}/package.mk"
+fi
+
 if ! [[ -d "${PACKAGE_DIR}" ]]; then
   echo "Build scripts for ${PACKAGE} are not available!"
   exit 1
