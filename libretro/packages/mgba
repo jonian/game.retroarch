@@ -1,0 +1,36 @@
+#!/bin/bash
+
+PKG_NAME="mgba"
+PKG_VERSION="72a620a484cebd05696a4c69a1120dc58973b65e"
+PKG_LICENSE="MPLv2.0"
+PKG_SITE="https://github.com/mgba-emu/mgba"
+PKG_URL="${PKG_SITE}.git"
+PKG_DEPENDS_TARGET="toolchain"
+PKG_LONGDESC="mGBA Game Boy Advance Emulator"
+PKG_TOOLCHAIN="cmake"
+
+PKG_CMAKE_OPTS_TARGET="-DDISABLE_FRONTENDS=ON \
+  -DDISABLE_DEPS=ON \
+  -DSKIP_LIBRARY=ON \
+  -DBUILD_LIBRETRO=ON"
+
+if [ "${OPENGL_SUPPORT}" = "yes" ]; then
+  PKG_CMAKE_OPTS_TARGET+=" -DBUILD_GL=ON"
+else
+  PKG_CMAKE_OPTS_TARGET+=" -DBUILD_GL=OFF"
+fi
+
+if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+  PKG_CMAKE_OPTS_TARGET+=" -DBUILD_GLES2=ON"
+
+  if [[ "${DEVICE}" = "RPi4" || "${DEVICE}" = "RPi5" ]]; then
+    PKG_CMAKE_OPTS_TARGET+=" -DBUILD_GLES3=ON"
+  fi
+else
+  PKG_CMAKE_OPTS_TARGET+=" -DBUILD_GLES2=OFF -DBUILD_GLES3=OFF"
+fi
+
+makeinstall_target() {
+  mkdir -p ${INSTALL}/usr/lib/libretro
+    cp -v ../mgba_libretro.so ${INSTALL}/usr/lib/libretro/
+}
