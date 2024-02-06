@@ -2,7 +2,7 @@
 
 set -e
 
-VERSION="${VERSION:-1.16.0.3}"
+VERSION="${VERSION:-1.17.0}"
 LIBREELEC="${LIBREELEC:-11}"
 DEVICE="${DEVICE:-RPi4}"
 
@@ -50,6 +50,10 @@ echo "  OpenGLESv3 : ${OPENGLES3}"
 echo "  Vulkan     : ${VULKAN}"
 echo ""
 
+current_file=$(realpath "$0")
+current_dir=$(dirname "$current_file")
+parent_dir=$(dirname "$current_dir")
+
 cpu_cores=$(nproc --ignore=2)
 image_name=game.retroarch:$VERSION
 
@@ -62,10 +66,10 @@ docker build \
   --build-arg VULKAN="${VULKAN}" \
   --build-arg OPENGLES3="${OPENGLES3}" \
   --tag $image_name \
-  docker
+  $current_dir
 
 container_id=$(docker create --platform $PLATFORM $image_name)
-build_path=build
+build_path=$parent_dir/build
 
 mkdir -p $build_path
 

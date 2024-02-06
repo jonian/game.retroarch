@@ -33,7 +33,7 @@ RUN apt-get update && apt-get install -yq \
 # Download RetroArch package
 WORKDIR /root
 
-ARG VERSION=1.16.0.3
+ARG VERSION=1.17.0
 
 RUN wget https://github.com/libretro/RetroArch/archive/refs/tags/v${VERSION}.tar.gz \
   && tar xf v${VERSION}.tar.gz \
@@ -41,7 +41,7 @@ RUN wget https://github.com/libretro/RetroArch/archive/refs/tags/v${VERSION}.tar
   && rm v${VERSION}.tar.gz
 
 # Copy project files
-COPY . .
+COPY ./scripts .
 
 # Build RetroArch
 WORKDIR /root/RetroArch
