@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -yq \
       libxml2-dev \
       libfreetype6-dev \
       libavcodec-dev \
+      libavfilter-dev \
       libpng-dev \
       libjpeg-dev \
       libusb-dev \
@@ -23,6 +24,7 @@ RUN apt-get update && apt-get install -yq \
       libzip-dev \
       libzstd-dev \
       libspeex-dev \
+      libelf-dev \
       zlib1g-dev \
       mesa-vulkan-drivers \
       python3 \
@@ -36,6 +38,9 @@ RUN apt-get update && apt-get install -yq \
       autoconf \
       automake \
       gettext \
+      zipmerge \
+      ziptool \
+      zipcmp \
       yasm
 
 # Download Lakka package

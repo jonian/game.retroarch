@@ -1,3 +1,0 @@
-#!/bin/bash
-
-PKG_CMAKE_OPTS_TARGET+=" -DDISABLE_DEPS=ON"
