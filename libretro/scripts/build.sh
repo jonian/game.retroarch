@@ -34,6 +34,11 @@ if [ -f "${PKG_BUILD_PATCH}" ]; then
   . ${PKG_BUILD_PATCH}
 fi
 
+if [[ "${ARCH}" = "arm" ]]; then
+  PKG_MAKE_OPTS_TARGET="${PKG_MAKE_OPTS_TARGET//platform=rpi3_64/platform=rpi3}"
+  PKG_MAKE_OPTS_TARGET="${PKG_MAKE_OPTS_TARGET//platform=rpi4_64/platform=rpi4}"
+fi
+
 export LDFLAGS="-Wl,--as-needed ${TARGET_LDFLAGS}"
 export CFLAGS="${TARGET_CFLAGS} -Wall -pipe ${PROJECT_CFLAGS}"
 export CXXFLAGS="${CFLAGS} ${TARGET_CXXFLAGS}"

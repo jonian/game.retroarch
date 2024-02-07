@@ -1,6 +1,0 @@
-#!/bin/bash
-
-if [[ "${ARCH}" = "arm" ]]; then
-  PKG_MAKE_OPTS_TARGET="${PKG_MAKE_OPTS_TARGET//platform=rpi3_64/platform=rpi3}"
-  PKG_MAKE_OPTS_TARGET="${PKG_MAKE_OPTS_TARGET//platform=rpi4_64/platform=rpi4}"
-fi
