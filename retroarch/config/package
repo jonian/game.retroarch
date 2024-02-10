@@ -1,0 +1,14 @@
+#!/bin/bash
+
+. /root/config/options
+
+. ${LE_DIR}/config/functions
+. ${LE_DIR}/projects/${PROJECT}/options
+. ${LE_DIR}/projects/${PROJECT}/devices/${DEVICE}/options
+. ${LE_DIR}/config/arch.${ARCH}
+. ${LE_DIR}/config/graphic
+
+export LDFLAGS="-Wl,--as-needed ${TARGET_LDFLAGS}"
+export CFLAGS="${TARGET_CFLAGS} -Wall -pipe ${PROJECT_CFLAGS}"
+export CXXFLAGS="${CFLAGS} ${TARGET_CXXFLAGS}"
+export CPPFLAGS="${CXXFLAGS} ${TARGET_CPPFLAGS}"

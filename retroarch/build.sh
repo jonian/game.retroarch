@@ -4,12 +4,9 @@ set -e
 
 VERSION="${VERSION:-1.17.0}"
 LIBREELEC="${LIBREELEC:-11}"
-DEVICE="${DEVICE:-RPi4}"
 
+DEVICE="${DEVICE:-RPi4}"
 PLATFORM="linux/arm/v7"
-VIDEOCORE="no"
-VULKAN="no"
-OPENGLES3="no"
 
 if [ "${DEVICE}" = "RPi4" ] && [ "${LIBREELEC}" -lt "10" ]; then
   echo "LibreELEC ${LIBREELEC} not supported on ${DEVICE} devices!"
@@ -21,34 +18,11 @@ if [ "${DEVICE}" = "RPi5" ] && [ "${LIBREELEC}" -lt "11" ]; then
   exit 1
 fi
 
-if [ "${LIBREELEC}" -lt "10" ]; then
-  VIDEOCORE="yes"
-fi
-
-if [ "${LIBREELEC}" -ge "11" ]; then
-  VULKAN="yes"
-fi
-
 if [ "${DEVICE}" = "RPi4" ] || [ "${DEVICE}" = "RPi5" ]; then
-  if [ "${LIBREELEC}" -ge "10" ]; then
-    OPENGLES3="yes"
-  fi
-
   if [ "${LIBREELEC}" -ge "12" ]; then
     PLATFORM="linux/arm64"
   fi
 fi
-
-echo ""
-echo "  RetroArch  : ${VERSION}"
-echo "  LibreELEC  : ${LIBREELEC}"
-echo "  RPi Device : ${DEVICE}"
-echo ""
-echo "  Platform   : ${PLATFORM}"
-echo "  VideoCore  : ${VIDEOCORE}"
-echo "  OpenGLESv3 : ${OPENGLES3}"
-echo "  Vulkan     : ${VULKAN}"
-echo ""
 
 current_file=$(realpath "$0")
 current_dir=$(dirname "$current_file")
@@ -62,9 +36,8 @@ docker build \
   --platform ${PLATFORM} \
   --build-arg JOBS="${JOBS:-$cpu_cores}" \
   --build-arg VERSION="${VERSION}" \
-  --build-arg VIDEOCORE="${VIDEOCORE}" \
-  --build-arg VULKAN="${VULKAN}" \
-  --build-arg OPENGLES3="${OPENGLES3}" \
+  --build-arg DEVICE="${DEVICE}" \
+  --build-arg LIBREELEC="${LIBREELEC}" \
   --tag $image_name \
   $current_dir
 

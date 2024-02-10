@@ -40,24 +40,29 @@ RUN wget https://github.com/libretro/RetroArch/archive/refs/tags/v${VERSION}.tar
   && mv RetroArch-${VERSION} RetroArch \
   && rm v${VERSION}.tar.gz
 
-# Copy project files
-COPY ./scripts .
-
 # Build RetroArch
 WORKDIR /root/RetroArch
+
+ARG LIBREELEC=11
+ENV LIBREELEC=$LIBREELEC
+
+# Copy project files and fetch sources
+COPY ./config/options /root/config/
+COPY ./scripts/fetch.sh /root/scripts/
+
+RUN bash /root/scripts/fetch.sh
+
+ARG DEVICE=RPi4
+ENV DEVICE=$DEVICE
 
 ARG JOBS=1
 ENV JOBS=$JOBS
 
-ARG VIDEOCORE=no
-ARG VULKAN=no
-ARG OPENGLES3=no
+# Copy project files and build
+COPY ./config/. /root/config/
+COPY ./scripts/build.sh /root/scripts/
 
-ENV SUPPORT_VIDEOCORE=$VIDEOCORE
-ENV SUPPORT_VULKAN=$VULKAN
-ENV SUPPORT_OPENGLES3=$OPENGLES3
-
-RUN sh /root/build.sh
+RUN bash /root/scripts/build.sh
 
 # Strip retroarch binary
 RUN strip --strip-unneeded retroarch

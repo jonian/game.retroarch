@@ -1,0 +1,20 @@
+#!/bin/bash
+
+ARCH=$(uname -m)
+
+if [ "${ARCH}" = "aarch64" ]; then
+  ARCH="aarch64"
+  TARGET_ARCH="aarch64"
+  TARGET_NAME="armv8"
+  ARM_MEM_SUPPORT="no"
+else
+  ARCH="arm"
+  TARGET_ARCH="arm"
+  TARGET_NAME="armv7"
+  ARM_MEM_SUPPORT="yes"
+fi
+
+DISTRO="LibreELEC"
+PROJECT="RPi"
+DEVICE="${DEVICE:-RPi4}"
+LE_DIR="/root/LibreELEC"

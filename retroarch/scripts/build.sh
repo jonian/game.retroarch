@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ARCH=$(uname -m)
+. /root/config/package
 
 CONFIG_OPTIONS="--disable-vg \
   --disable-sdl \
@@ -24,31 +24,42 @@ MAKE_OPTIONS="V=1 \
   HAVE_BLUETOOTH=0 \
   HAVE_FREETYPE=1"
 
-if [ "${SUPPORT_VIDEOCORE}" = "yes" ]; then
+if [ "${OPENGLES}" = "bcm2835-driver" ]; then
   CONFIG_OPTIONS="${CONFIG_OPTIONS} --enable-videocore --disable-kms"
   sed -i 's/HAVE_CRTSWITCHRES=auto/HAVE_CRTSWITCHRES=no/' qb/config.params.sh
 else
   CONFIG_OPTIONS="${CONFIG_OPTIONS} --disable-videocore --enable-kms"
 fi
 
-if [ "${SUPPORT_VULKAN}" = "yes" ]; then
+if [ "${VULKAN_SUPPORT}" = "yes" ]; then
   CONFIG_OPTIONS="${CONFIG_OPTIONS} --enable-vulkan"
 else
   CONFIG_OPTIONS="${CONFIG_OPTIONS} --disable-vulkan"
 fi
 
-if [ "${SUPPORT_OPENGLES3}" = "yes" ]; then
+if [ "${DEVICE}" = "RPi4" ] || [ "${DEVICE}" = "RPi5" ]; then
   CONFIG_OPTIONS="${CONFIG_OPTIONS} --enable-opengles3 --enable-opengles3_1"
 fi
 
-if [ "${ARCH}" = "armv7l" ]; then
-  CONFIG_FLAGS="-mfpu=neon -mfloat-abi=hard"
+if [ "${ARCH}" = "arm" ]; then
   CONFIG_OPTIONS="${CONFIG_OPTIONS} --enable-neon --enable-floathard"
 fi
 
 echo ""
-echo " CFLAGS : ${CONFIG_FLAGS:-none}"
-echo " CONFIG : ${CONFIG_OPTIONS}"
+echo "  RetroArch : ${VERSION}"
+echo "  LibreELEC : ${LIBREELEC}"
+echo "  Project   : ${PROJECT}"
+echo "  Device    : ${DEVICE}"
+echo "  Arch      : ${ARCH}"
+echo "  Features  : ${TARGET_FEATURES}"
+echo ""
+echo "  CFLAGS    : ${CFLAGS:-none}"
+echo "  CXXFLAGS  : ${CXXFLAGS:-none}"
+echo "  LDFLAGS   : ${LDFLAGS:-none}"
+echo ""
+echo "  TOOLCHAIN : make"
+echo "  MAKEOPTS  : ${MAKE_OPTIONS}"
+echo "  CONFIGURE : ${CONFIG_OPTIONS}"
 echo ""
 
-CFLAGS="${CONFIG_FLAGS}" ./configure $CONFIG_OPTIONS && make $MAKE_OPTIONS -j $JOBS
+./configure $CONFIG_OPTIONS && make $MAKE_OPTIONS -j $JOBS
