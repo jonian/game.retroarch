@@ -72,3 +72,7 @@ COPY ./patches*/${CORE} /root/patches/
 COPY ./scripts/build.sh /root/scripts/
 
 RUN bash /root/scripts/build.sh
+
+# Strip core library files
+RUN find /root/LibRetro/install -type f -name "*libretro.so" \
+  -exec strip --strip-unneeded {} \;

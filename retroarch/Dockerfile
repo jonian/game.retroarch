@@ -58,3 +58,6 @@ ENV SUPPORT_VULKAN=$VULKAN
 ENV SUPPORT_OPENGLES3=$OPENGLES3
 
 RUN sh /root/build.sh
+
+# Strip retroarch binary
+RUN strip --strip-unneeded retroarch
