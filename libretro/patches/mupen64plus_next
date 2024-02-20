@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [[ "${DEVICE}" = "RPi4" || "${DEVICE}" = "RPi5" ]]; then
+  PKG_MAKE_OPTS_TARGET+=" HAVE_THR_AL=1 HAVE_PARALLEL_RSP=1 LLE=1"
+fi
