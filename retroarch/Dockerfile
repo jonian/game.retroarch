@@ -1,4 +1,4 @@
-FROM jonian/rpi-buildenv:buster
+FROM jonian/rpi-buildenv:bullseye
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
