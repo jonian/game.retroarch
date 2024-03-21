@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 . /root/config/package
 
@@ -25,24 +25,24 @@ MAKE_OPTIONS="V=1 \
   HAVE_FREETYPE=1"
 
 if [ "${OPENGLES}" = "bcm2835-driver" ]; then
-  CONFIG_OPTIONS="${CONFIG_OPTIONS} --enable-videocore --disable-kms"
+  CONFIG_OPTIONS+=" --enable-videocore --disable-kms"
   sed -i 's/HAVE_CRTSWITCHRES=auto/HAVE_CRTSWITCHRES=no/' qb/config.params.sh
 else
-  CONFIG_OPTIONS="${CONFIG_OPTIONS} --disable-videocore --enable-kms"
+  CONFIG_OPTIONS+=" --disable-videocore --enable-kms"
 fi
 
 if [ "${VULKAN_SUPPORT}" = "yes" ]; then
-  CONFIG_OPTIONS="${CONFIG_OPTIONS} --enable-vulkan"
+  CONFIG_OPTIONS+=" --enable-vulkan"
 else
-  CONFIG_OPTIONS="${CONFIG_OPTIONS} --disable-vulkan"
+  CONFIG_OPTIONS+=" --disable-vulkan"
 fi
 
 if [ "${DEVICE}" = "RPi4" ] || [ "${DEVICE}" = "RPi5" ]; then
-  CONFIG_OPTIONS="${CONFIG_OPTIONS} --enable-opengles3 --enable-opengles3_1"
+  CONFIG_OPTIONS+=" --enable-opengles3 --enable-opengles3_1"
 fi
 
 if [ "${ARCH}" = "arm" ]; then
-  CONFIG_OPTIONS="${CONFIG_OPTIONS} --enable-neon --enable-floathard"
+  CONFIG_OPTIONS+=" --enable-neon --enable-floathard"
 fi
 
 echo ""
