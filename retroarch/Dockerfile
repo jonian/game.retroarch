@@ -1,4 +1,5 @@
-FROM jonian/rpi-buildenv:bullseye
+ARG IMAGE=bullseye
+FROM jonian/rpi-buildenv:${IMAGE}
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive

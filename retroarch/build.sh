@@ -2,11 +2,21 @@
 
 set -e
 
+IMAGE="bullseye"
+
 VERSION="${VERSION:-1.18.0}"
 LIBREELEC="${LIBREELEC:-11}"
 
 DEVICE="${DEVICE:-RPi4}"
 PLATFORM="linux/arm/v7"
+
+if [ "${LIBREELEC}" -lt "10" ]; then
+  IMAGE="buster"
+fi
+
+if [ "${LIBREELEC}" -ge "12" ]; then
+  IMAGE="trixie"
+fi
 
 if [ "${DEVICE}" = "RPi4" ] && [ "${LIBREELEC}" -lt "10" ]; then
   echo "LibreELEC ${LIBREELEC} not supported on ${DEVICE} devices!"
@@ -35,6 +45,7 @@ docker build \
   --progress=plain \
   --platform ${PLATFORM} \
   --build-arg JOBS="${JOBS:-$cpu_cores}" \
+  --build-arg IMAGE="${IMAGE}" \
   --build-arg VERSION="${VERSION}" \
   --build-arg DEVICE="${DEVICE}" \
   --build-arg LIBREELEC="${LIBREELEC}" \
