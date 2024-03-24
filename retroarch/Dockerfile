@@ -33,7 +33,7 @@ RUN apt-get update && apt-get install -yq \
 # Download RetroArch package
 WORKDIR /root
 
-ARG VERSION=1.17.0
+ARG VERSION=1.18.0
 
 RUN wget https://github.com/libretro/RetroArch/archive/refs/tags/v${VERSION}.tar.gz \
   && tar xf v${VERSION}.tar.gz \
