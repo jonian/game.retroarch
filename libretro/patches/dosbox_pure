@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [[ "${ARCH}" = "aarch64" && "${DEVICE}" = "RPi5" ]]; then
+  PROJECT_CFLAGS="-DPAGESIZE=16384"
+fi
