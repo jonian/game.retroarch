@@ -1,5 +1,15 @@
 #!/bin/bash
 
+if [[ "${DEVICE}" = "RPi5" ]]; then
+  PKG_MAKE_OPTS_TARGET+=" FORCE_GLES3=1"
+
+  if [[ "${ARCH}" = "arm64" ]]; then
+    PKG_MAKE_OPTS_TARGET="${PKG_MAKE_OPTS_TARGET//platform=unix/platform=rpi4_64-mesa}"
+  else
+    PKG_MAKE_OPTS_TARGET="${PKG_MAKE_OPTS_TARGET//platform=unix/platform=rpi4-mesa}"
+  fi
+fi
+
 if [[ "${DEVICE}" = "RPi4" || "${DEVICE}" = "RPi5" ]]; then
   PKG_MAKE_OPTS_TARGET+=" HAVE_THR_AL=1 HAVE_PARALLEL_RSP=1 LLE=1"
 fi
