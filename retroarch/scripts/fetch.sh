@@ -9,10 +9,10 @@ case $LIBREELEC in
   9)
     GIT_BRANCH="libreelec-9.2"
     ;;
-  10|11)
+  10|11|12)
     GIT_BRANCH="libreelec-${LIBREELEC}.0"
     ;;
-  12)
+  13)
     GIT_BRANCH="master"
     ;;
   *)
