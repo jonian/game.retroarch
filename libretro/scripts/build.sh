@@ -39,10 +39,10 @@ if [[ "${ARCH}" = "arm" ]]; then
   PKG_MAKE_OPTS_TARGET="${PKG_MAKE_OPTS_TARGET//platform=rpi4_64/platform=rpi4}"
 fi
 
-export LDFLAGS="-Wl,--as-needed ${TARGET_LDFLAGS}"
-export CFLAGS="${TARGET_CFLAGS} -Wall -pipe ${PROJECT_CFLAGS}"
-export CXXFLAGS="${CFLAGS} ${TARGET_CXXFLAGS}"
-export CPPFLAGS="${CXXFLAGS} ${TARGET_CPPFLAGS}"
+export LDFLAGS="-Wl,--as-needed ${TARGET_LDFLAGS} ${LDFLAGS}"
+export CFLAGS="${TARGET_CFLAGS} -Wall -pipe ${PROJECT_CFLAGS} ${CFLAGS}"
+export CXXFLAGS="${CFLAGS} ${TARGET_CXXFLAGS} ${CXXFLAGS}"
+export CPPFLAGS="${CXXFLAGS} ${TARGET_CPPFLAGS} ${CPPFLAGS}"
 
 echo ""
 echo "  Core      : ${PACKAGE}"
