@@ -3,11 +3,8 @@
 if [[ "${DEVICE}" = "RPi5" ]]; then
   PKG_MAKE_OPTS_TARGET+=" FORCE_GLES3=1"
 
-  if [[ "${ARCH}" = "arm64" ]]; then
-    PKG_MAKE_OPTS_TARGET="${PKG_MAKE_OPTS_TARGET//platform=unix/platform=rpi4_64-mesa}"
-  else
-    PKG_MAKE_OPTS_TARGET="${PKG_MAKE_OPTS_TARGET//platform=unix/platform=rpi4-mesa}"
-  fi
+  PKG_MAKE_OPTS_TARGET="${PKG_MAKE_OPTS_TARGET//platform=unix/platform=rpi4-mesa}"
+  sed -i '172,177d' ${SOURCE_DIR}/Makefile
 
   if [[ "${ARCH}" = "aarch64" ]]; then
     sed -i '39s/defined(__APPLE__) && //' ${SOURCE_DIR}/mupen64plus-rsp-paraLLEl/jit_allocator.cpp
