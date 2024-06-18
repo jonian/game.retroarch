@@ -8,6 +8,10 @@ if [[ "${DEVICE}" = "RPi5" ]]; then
   else
     PKG_MAKE_OPTS_TARGET="${PKG_MAKE_OPTS_TARGET//platform=unix/platform=rpi4-mesa}"
   fi
+
+  if [[ "${ARCH}" = "aarch64" ]]; then
+    sed -i '39s/defined(__APPLE__) && //' ${SOURCE_DIR}/mupen64plus-rsp-paraLLEl/jit_allocator.cpp
+  fi
 fi
 
 if [[ "${DEVICE}" = "RPi4" || "${DEVICE}" = "RPi5" ]]; then
