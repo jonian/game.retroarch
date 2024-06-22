@@ -3,8 +3,8 @@
 PKG_CMAKE_OPTS_TARGET+=" -DUSE_HOST_LIBZIP=OFF -DUSE_HOST_SDL=OFF"
 PKG_CMAKE_OPTS_TARGET+=" -DCMAKE_POSITION_INDEPENDENT_CODE=TRUE"
 
-sed -i '400 a\	target_link_libraries(${PROJECT_NAME} PRIVATE atomic)' ${SOURCE_DIR}/CMakeLists.txt
-
 if [[ "${ARCH}" = "aarch64" && "${DEVICE}" = "RPi5" ]]; then
-  sed -i 's/PAGE_SIZE=${PAGE_SIZE}/PAGE_SIZE=16384/' ${SOURCE_DIR}/CMakeLists.txt
+  PROJECT_CFLAGS="-DPAGE_SIZE=16384"
 fi
+
+sed -i '400 a\	target_link_libraries(${PROJECT_NAME} PRIVATE atomic)' ${SOURCE_DIR}/CMakeLists.txt
