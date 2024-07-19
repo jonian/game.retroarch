@@ -1,6 +1,7 @@
 #!/bin/bash
 
 if [[ "${DEVICE}" = "RPi5" && "${ARCH}" = "aarch64" ]]; then
+  PKG_MAKE_OPTS_TARGET="${PKG_MAKE_OPTS_TARGET//platform=rpi5/platform=rpi5_64-mesa}"
   sed -i '39s/defined(__APPLE__) && //' ${SOURCE_DIR}/mupen64plus-rsp-paraLLEl/jit_allocator.cpp
 fi
 
