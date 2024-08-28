@@ -1,0 +1,55 @@
+---
+name: Build Core
+run-name: Build core ${{ github.event.inputs.core }} ${{ github.event.inputs.device }} [${{ github.event.inputs.arch }}]
+
+on:
+  workflow_dispatch:
+    inputs:
+      core:
+        description: Name
+        required: true
+      device:
+        description: Device
+        required: true
+        type: choice
+        default: RPi5
+        options:
+          - RPi2
+          - RPi4
+          - RPi5
+      arch:
+        description: Arch
+        required: true
+        type: choice
+        default: arm64
+        options:
+          - armv7
+          - arm64
+
+jobs:
+  build:
+    name: libretro-${{ github.event.inputs.device }}-${{ github.event.inputs.arch }}
+    runs-on: ubuntu-latest
+
+    env:
+      CORE: ${{ github.event.inputs.core }}
+      DEVICE: ${{ github.event.inputs.device }}
+      ARCH: ${{ github.event.inputs.arch }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Core
+        run: JOBS=$(nproc) sh libretro/build.sh
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: libretro-${{ github.event.inputs.core }}.${{ github.event.inputs.device }}.${{ github.event.inputs.arch }}
+          path: build/libretro
