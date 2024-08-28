@@ -1,0 +1,6 @@
+#!/bin/bash
+
+if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+  patch -d "${SOURCE_DIR}" -p1 < "${SOURCE_DIR}/.github/gles.patch"
+  rm -f ${SOURCE_DIR}/.github/gles.patch
+fi

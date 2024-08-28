@@ -1,0 +1,38 @@
+#!/bin/bash
+
+PKG_NAME="panda3ds"
+PKG_VERSION="4adc50039cc22de2ee730dc83074760d72a8f3ce"
+PKG_LICENSE="GPLv3"
+PKG_SITE="https://github.com/jonian/libretro-panda3ds"
+PKG_URL="${PKG_SITE}.git"
+PKG_DEPENDS_TARGET="toolchain"
+PKG_LONGDESC="Panda3DS is an HLE, red-panda-themed Nintendo 3DS emulator"
+PKG_TOOLCHAIN="cmake"
+
+PKG_CMAKE_OPTS_TARGET="-DBUILD_LIBRETRO_CORE=ON \
+  -DENABLE_VULKAN=OFF \
+  -DENABLE_USER_BUILD=ON \
+  -DENABLE_DISCORD_RPC=OFF \
+  -DENABLE_LUAJIT=OFF \
+  -DSDL_VIDEO=OFF \
+  -DSDL_AUDIO=OFF \
+  -DCMAKE_BUILD_TYPE=Release"
+
+if [ "${OPENGL_SUPPORT}" = "yes" ]; then
+  PKG_DEPENDS_TARGET+=" ${OPENGL}"
+  PKG_CMAKE_OPTS_TARGET+=" -DOPENGL_PROFILE=OpenGL"
+elif [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+  PKG_DEPENDS_TARGET+=" ${OPENGLES}"
+  PKG_CMAKE_OPTS_TARGET+=" -DOPENGL_PROFILE=OpenGLES"
+fi
+
+make_target() {
+  mkdir -p build && cd build
+  cmake $PKG_CMAKE_OPTS_TARGET ..
+  make -j${JOBS}
+}
+
+makeinstall_target() {
+  mkdir -p ${INSTALL}/usr/lib/libretro
+  cp -v ${PKG_BUILD}/build/panda3ds_libretro.so ${INSTALL}/usr/lib/libretro/panda3ds_libretro.so
+}
