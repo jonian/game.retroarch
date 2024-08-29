@@ -1,0 +1,44 @@
+#!/bin/bash
+
+PKG_NAME="dolphin"
+PKG_VERSION="9a773db7b34e0c7b0207e20c59655d029aa0b4cf"
+PKG_ARCH="x86_64 aarch64"
+PKG_LICENSE="GPLv2"
+PKG_SITE="https://github.com/jonian/libretro-dolphin"
+PKG_URL="${PKG_SITE}.git"
+PKG_GIT_CLONE_BRANCH="testing"
+PKG_DEPENDS_TARGET="toolchain"
+PKG_LONGDESC="Dolphin is a GameCube / Wii emulator"
+PKG_TOOLCHAIN="cmake"
+
+if [ "${OPENGL_SUPPORT}" = "yes" ]; then
+  PKG_DEPENDS_TARGET+=" ${OPENGL}"
+fi
+
+if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+  PKG_DEPENDS_TARGET+=" ${OPENGLES}"
+fi
+
+if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+  PKG_DEPENDS_TARGET+=" ${VULKAN}"
+fi
+
+PKG_CMAKE_OPTS_TARGET="-DLIBRETRO=ON \
+  -DENABLE_X11=OFF \
+  -DENABLE_NOGUI=OFF \
+  -DENABLE_QT=OFF \
+  -DENABLE_ALSA=OFF \
+  -DENABLE_PULSEAUDIO=OFF \
+  -DENABLE_TESTS=OFF \
+  -DENABLE_SDL=OFF \
+  -DENABLE_EVDEV=OFF \
+  -DENCODE_FRAMEDUMPS=OFF \
+  -DUSE_DISCORD_PRESENCE=OFF \
+  -DHAS_FORMAT_WARNING=OFF \
+  -DBUILD_SHARED_LIBS=OFF \
+  -DCMAKE_BUILD_TYPE=Release"
+
+makeinstall_target() {
+  mkdir -p ${INSTALL}/usr/lib/libretro
+    cp -v ${PKG_BUILD}/build/dolphin_libretro.so ${INSTALL}/usr/lib/libretro/
+}
