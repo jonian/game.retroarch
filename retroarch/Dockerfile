@@ -4,6 +4,10 @@ FROM jonian/rpi-buildenv:${IMAGE}
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Copy and run setup script
+COPY ./scripts/setup.sh /root/scripts/
+RUN bash /root/scripts/setup.sh
+
 # Update and install dependencies
 RUN apt-get update && apt-get install -yq \
       libegl1-mesa-dev \

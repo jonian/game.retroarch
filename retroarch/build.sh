@@ -15,7 +15,7 @@ if [ "${LIBREELEC}" -lt "10" ]; then
 fi
 
 if [ "${LIBREELEC}" -ge "12" ]; then
-  IMAGE="trixie"
+  IMAGE="bookworm"
 fi
 
 if [ "${DEVICE}" = "RPi4" ] && [ "${LIBREELEC}" -lt "10" ]; then
