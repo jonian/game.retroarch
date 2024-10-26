@@ -8,3 +8,6 @@ if [[ "${ARCH}" = "aarch64" && "${DEVICE}" = "RPi5" ]]; then
 fi
 
 sed -i '400 a\	target_link_libraries(${PROJECT_NAME} PRIVATE atomic)' ${SOURCE_DIR}/CMakeLists.txt
+
+# Remove when https://github.com/flyinghead/flycast/issues/1688 is resolved
+sed -i 's/\\U//g' ${SOURCE_DIR}/shell/libretro/libretro_core_options_intl.h
