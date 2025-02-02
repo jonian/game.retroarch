@@ -15,6 +15,7 @@ on:
         default: RPi5
         options:
           - RPi2
+          - RPi3
           - RPi4
           - RPi5
       arch:
