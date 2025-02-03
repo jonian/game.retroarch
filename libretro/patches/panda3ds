@@ -4,3 +4,7 @@ if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
   patch -d "${SOURCE_DIR}" -p1 < "${SOURCE_DIR}/.github/gles.patch"
   rm -f ${SOURCE_DIR}/.github/gles.patch
 fi
+
+if [[ "${DEVICE}" = "RPi4" ]]; then
+  PKG_CMAKE_OPTS_TARGET+=" -DCRYPTOPP_DISABLE_ASM=ON"
+fi
