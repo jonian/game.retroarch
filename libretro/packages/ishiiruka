@@ -1,0 +1,46 @@
+#!/bin/bash
+
+PKG_NAME="ishiiruka"
+PKG_VERSION="f4ac0e624b59c26c8132a9d95b6e6fd9c09f9a8b"
+PKG_ARCH="x86_64 aarch64"
+PKG_LICENSE="GPLv2"
+PKG_SITE="https://github.com/jonian/libretro-ishiiruka"
+PKG_URL="${PKG_SITE}.git"
+PKG_GIT_CLONE_BRANCH="update"
+PKG_DEPENDS_TARGET="toolchain"
+PKG_LONGDESC="Ishiiruka is a Dolphin GameCube / Wii emulator optimized fork"
+PKG_TOOLCHAIN="cmake"
+
+if [ "${OPENGL_SUPPORT}" = "yes" ]; then
+  PKG_DEPENDS_TARGET+=" ${OPENGL}"
+fi
+
+if [ "${OPENGLES_SUPPORT}" = "yes" ]; then
+  PKG_DEPENDS_TARGET+=" ${OPENGLES}"
+fi
+
+if [ "${VULKAN_SUPPORT}" = "yes" ]; then
+  PKG_DEPENDS_TARGET+=" ${VULKAN}"
+fi
+
+PKG_CMAKE_OPTS_TARGET="-DLIBRETRO=ON \
+  -DTRY_X11=OFF \
+  -DENABLE_QT2=OFF \
+  -DENABLE_WX=OFF \
+  -DENABLE_ALSA=OFF \
+  -DENABLE_PULSEAUDIO=OFF \
+  -DENABLE_SDL=OFF \
+  -DENABLE_EVDEV=OFF \
+  -DENABLE_ANALYTICS=OFF \
+  -DENCODE_FRAMEDUMPS=OFF \
+  -DCMAKE_BUILD_TYPE=Release"
+
+pre_make_target() {
+  # build fix for cross-compiling Dolphin, from Dolphin forums
+  find $PKG_BUILD -name flags.make -exec sed -i "s:isystem :I:g" \{} \;
+}
+
+makeinstall_target() {
+  mkdir -p ${INSTALL}/usr/lib/libretro
+    cp -v ${PKG_BUILD}/build/ishiiruka_libretro.so ${INSTALL}/usr/lib/libretro/
+}
