@@ -3,3 +3,9 @@
 PKG_CMAKE_OPTS_TARGET+=" -DENABLE_EGL=OFF"
 
 sed -i 's/libzstd/libzstdx/' ${SOURCE_DIR}/CMakeLists.txt
+
+sed -i '/curl_dependency_option.*brotli/d' ${SOURCE_DIR}/Externals/curl/curl/CMakeLists.txt
+sed -i '/curl_add_if.*brotli/d' ${SOURCE_DIR}/Externals/curl/curl/CMakeLists.txt
+
+sed -i '/curl_dependency_option.*zstd/d' ${SOURCE_DIR}/Externals/curl/curl/CMakeLists.txt
+sed -i '/curl_add_if.*zstd/d' ${SOURCE_DIR}/Externals/curl/curl/CMakeLists.txt
