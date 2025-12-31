@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PKG_NAME="3beans"
+PKG_VERSION="6a2d420452fc6ec726c09d25d9da04f2bd5532f1"
+PKG_LICENSE="GPLv3"
+PKG_SITE="https://github.com/jonian/libretro-3beans"
+PKG_URL="${PKG_SITE}.git"
+PKG_DEPENDS_TARGET="toolchain"
+PKG_LONGDESC="A low-level 3DS emulator."
+PKG_TOOLCHAIN="make"
+
+make_target() {
+  make libretro -j${JOBS}
+}
+
+makeinstall_target() {
+  mkdir -p ${INSTALL}/usr/lib/libretro
+    cp -v ${PKG_BUILD}/3beans_libretro.so ${INSTALL}/usr/lib/libretro/
+}

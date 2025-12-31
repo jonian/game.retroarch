@@ -1,0 +1,20 @@
+#!/bin/bash
+
+git clone --depth=1 https://github.com/anholt/libepoxy.git
+cd libepoxy
+
+meson setup build \
+  -Dx11=false \
+  -Dtests=false \
+  --default-library=static
+
+ninja -C build
+ninja -C build install
+
+cd $SOURCE_DIR
+
+make_target() {
+  make LIBS="${SOURCE_DIR}/libepoxy/build/src/libepoxy.a" \
+    -f Makefile.libretro \
+    -j${JOBS}
+}
