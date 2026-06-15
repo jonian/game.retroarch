@@ -1,0 +1,58 @@
+---
+name: Build Retroarch
+run-name: Build retroarch v${{ github.event.inputs.version }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version
+        required: true
+      device:
+        description: Device
+        required: true
+        type: choice
+        default: RPi5
+        options:
+          - RPi2
+          - RPi3
+          - RPi4
+          - RPi5
+      libreelec:
+        description: LibreELEC
+        required: true
+        type: choice
+        default: 12
+        options:
+          - 9
+          - 10
+          - 11
+          - 12
+
+jobs:
+  build:
+    name: libreelec-${{ github.event.inputs.libreelec }}-${{ github.event.inputs.device }}
+    runs-on: ubuntu-latest
+
+    env:
+      LIBREELEC: ${{ github.event.inputs.libreelec }}
+      DEVICE: ${{ github.event.inputs.device }}
+      VERSION: ${{ github.event.inputs.version }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build RetroArch
+        run: JOBS=$(nproc) sh retroarch/build.sh
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: game.retroarch.LE${{ github.event.inputs.libreelec }}.${{ github.event.inputs.device }}-${{ github.event.inputs.version }}
+          path: build/game.retroarch
