@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PKG_CMAKE_OPTS_TARGET+=" -DENABLE_EGL=OFF"
+PKG_CMAKE_OPTS_TARGET+=" -DENABLE_EGL=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON"
 
 sed -i 's/libzstd/libzstdx/' ${SOURCE_DIR}/CMakeLists.txt
 
